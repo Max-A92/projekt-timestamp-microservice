@@ -7,20 +7,13 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/api/', (req, res) => {
-  const date = new Date();
-  
-  res.json({
-    unix: date.getTime(),
-    utc: date.toUTCString()
-  });
-});
-
-app.get('/api/:date', (req, res) => {
+app.get('/api/:date?', (req, res) => {
   let dateParam = req.params.date;
   let date;
   
-  if (!isNaN(dateParam)) {
+  if (!dateParam) {
+    date = new Date();
+  } else if (!isNaN(dateParam)) {
     date = new Date(parseInt(dateParam));
   } else {
     date = new Date(dateParam);
